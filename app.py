@@ -9,7 +9,7 @@ S3_BUCKET = 'upload-image-s3-midterm'
 
 s3 = boto3.client('s3')
 
-dynamodb = boto3.client('dynamodb')
+dynamodb = boto3.client('dynamodb', region_name = 'us-east-2')
 
 @app.route('/')
 def index():
