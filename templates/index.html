@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>E-Bike Company - Upload Image</title> <!-- Updated title -->
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            max-width: 600px;
+            margin: 50px auto;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        h1 {
+            font-size: 24px;
+            color: #333;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        form {
+            text-align: center;
+        }
+        input[type="file"] {
+            display: none;
+        }
+        label {
+            display: block;
+            background-color: #3498db;
+            color: #fff;
+            padding: 10px 20px;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        label:hover {
+            background-color: #2980b9;
+        }
+        button[type="submit"] {
+            background-color: #2ecc71;
+            color: #fff;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        button[type="submit"]:hover {
+            background-color: #27ae60;
+        }
+        #filenameDisplay {
+            margin-top: 20px;
+            text-align: center;
+            font-size: 18px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>E-Bike Company - Upload Image</h1> <!-- Updated title -->
+        <form action="/upload" method="post" enctype="multipart/form-data">
+            <input type="file" name="image" id="imageInput">
+            <label for="imageInput">Choose Image</label> <!-- Updated label -->
+            <button type="submit">Upload</button>
+        </form>
+        <div id="filenameDisplay"></div> <!-- Container to display filename -->
+    </div>
+
+    <script>
+        // Function to display filename when a file is selected
+        document.getElementById('imageInput').addEventListener('change', function() {
+            var filename = this.files[0].name; // Get the filename
+            document.getElementById('filenameDisplay').innerHTML = 'Selected File: ' + filename; // Display filename
+        });
+    </script>
+</body>
+</html>
