@@ -1,4 +1,4 @@
-from flask import Flask, request, render_template, redirect, url_for
+from flask import Flask, request, render_template, redirect, url_for, session
 import boto3
 
 app = Flask(__name__)
@@ -6,6 +6,12 @@ app = Flask(__name__)
 # S3 configuration
 S3_BUCKET = 'upload-image-s3-midterm'
 
+# AWS Cognito configuration
+COGNITO_REGION = 'us-east-2'
+COGNITO_USER_POOL_ID = 'us-east-2_vTK8m5hGU'
+COGNITO_APP_CLIENT_ID = '94l5v01kqckjsueshr2kvd7di'
+
+cognito_client = boto3.client('cognito-idp', region_name=COGNITO_REGION)
 
 s3 = boto3.client('s3')
 
@@ -18,6 +24,30 @@ def index():
         return render_template('index.html')
     else:
         return 'Hello, terminal user!'
+
+@app.route('/login', methods=['GET', 'POST'])
+def login():
+    if request.method == 'POST':
+        email = request.form['email']
+        password = request.form['password']
+
+        # Authenticate user with Cognito
+        try:
+            response = cognito_client.initiate_auth(
+                AuthFlow='USER_PASSWORD_AUTH',
+                AuthParameters={
+                    'USERNAME': email,
+                    'PASSWORD': password
+                },
+                ClientId=COGNITO_APP_CLIENT_ID
+            )
+            # session['access_token'] = response['AuthenticationResult']['AccessToken']
+            return redirect(url_for('index'))  # Redirect to index page after successful login
+        except Exception as e:
+            error_message = str(e)
+            return render_template('login.html', error_message=error_message)
+
+    return render_template('login.html')
 
 @app.route('/upload', methods=['POST'])
 def upload():
